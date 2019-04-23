@@ -83,6 +83,55 @@ QC Class Connect will be a mobile application designed to connect students in th
 [Add picture of your hand sketched wireframes in this section]
 <img src="https://i.imgur.com/xp9uOL4.png">
 
+## Schema
+
+### Models
+
+* Model: User
+
+| Property | Type | Description |
+| -------- | -------- | -------- |
+| name     | String     | unique username     |
+| password | String | password of user|
+|gradeLevel | String | current grade level|
+|major | String | current grade level|
+|coursesEnrolled| Integer Array | array of course id's the user is currently enrolled in|
+
+* Model: Course
+
+| Property | Type | Description |
+| -------- | -------- | -------- |
+| courseNum| Integer     | Course number|
+|courseCode| Integer | Unique id of course|
+|professor | String | Name of instructor|
+|days | String | Meeting days of course | 
+|time | String | Meeting time of course | 
+|section | Integer | Section number of course | 
+
+* Model: Post
+
+| Property | Type | Description |
+| -------- | -------- | -------- |
+| postId     | Integer     | Unique id of post | 
+|user | Pointer to User | Post author | 
+|text | String | Content of post | 
+|hashtag | String | Non-unique searchable id of post | 
+|timeCreated | DateTime | Date post was created | 
+
+* Model: List
+
+| Property | Type | Description |
+| -------- | -------- | -------- |
+| listId     | Integer     | Unique id of list |
+| postId | Array of Pointers to Posts | Contains all post ids belonging to the list | 
+
+* Model: Hashtag
+
+| Property | Type | Description |
+| -------- | -------- | -------- |
+| id     | Integer     | Unique id of hashtag | 
+|tag | String | Hashtag name | 
+
 ### Networking
 List of network requests by screen
 
@@ -282,55 +331,6 @@ protected void queryPosts() {
         });
     }
 ```
-
-### Models
-
-* Model: User
-
-| Property | Type | Description |
-| -------- | -------- | -------- |
-| name     | String     | unique username     |
-| password | String | password of user|
-|gradeLevel | String | current grade level|
-|major | String | current grade level|
-|coursesEnrolled| Integer Array | array of course id's the user is currently enrolled in|
-
-* Model: Course
-
-| Property | Type | Description |
-| -------- | -------- | -------- |
-| courseNum| Integer     | Course number|
-|courseCode| Integer | Unique id of course|
-|professor | String | Name of instructor|
-|days | String | Meeting days of course | 
-|time | String | Meeting time of course | 
-|section | Integer | Section number of course | 
-
-* Model: Post
-
-| Property | Type | Description |
-| -------- | -------- | -------- |
-| postId     | Integer     | Unique id of post | 
-|user | Pointer to User | Post author | 
-|text | String | Content of post | 
-|hashtag | String | Non-unique searchable id of post | 
-|timeCreated | DateTime | Date post was created | 
-
-* Model: List
-
-| Property | Type | Description |
-| -------- | -------- | -------- |
-| listId     | Integer     | Unique id of list |
-| postId | Array of Pointers to Posts | Contains all post ids belonging to the list | 
-
-* Model: Hashtag
-
-| Property | Type | Description |
-| -------- | -------- | -------- |
-| id     | Integer     | Unique id of hashtag | 
-|tag | String | Hashtag name | 
-
-
 
 ### [BONUS] Digital Wireframes & Mockups
 
