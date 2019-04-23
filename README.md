@@ -83,7 +83,7 @@ QC Class Connect will be a mobile application designed to connect students in th
 [Add picture of your hand sketched wireframes in this section]
 <img src="https://i.imgur.com/xp9uOL4.png">
 
-Networking
+### Networking
 List of network requests by screen
 
 * Login Screen
@@ -283,7 +283,7 @@ protected void queryPosts() {
     }
 ```
 
-**Models**
+### Models
 
 * Model: User
 
@@ -336,11 +336,4 @@ protected void queryPosts() {
 
 ### [BONUS] Interactive Prototype
 
-## Schema 
-[This section will be completed in Unit 9]
-### Models
-[Add table of models]
-### Networking
-- [Add list of network requests by screen ]
-- [Create basic snippets for each Parse network request]
-- [OPTIONAL: List endpoints if using existing API such as Yelp]
+
