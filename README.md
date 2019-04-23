@@ -48,6 +48,8 @@ QC Class Connect will be a mobile application designed to connect students in th
 
 * Login Screen
    * User can login
+* Registration Screen
+    * User can create an account
 * Course Screen
    * User sees courses they are enrolled in
 * Course Search Screen
@@ -67,6 +69,8 @@ QC Class Connect will be a mobile application designed to connect students in th
 
 * Login Screen
    * => Home
+* Registration Screen
+    * => Home
 * Course Screen
     * => Course Search Screen
    * => Chat Screen
@@ -77,111 +81,18 @@ QC Class Connect will be a mobile application designed to connect students in th
 
 ## Wireframes
 [Add picture of your hand sketched wireframes in this section]
-<img src="https://i.imgur.com/xp9uOL4.png" width=600>
+<img src="https://i.imgur.com/xp9uOL4.png">
 
-### [BONUS] Digital Wireframes & Mockups
-
-### [BONUS] Interactive Prototype
-
-## Schema 
-### Models
-Model: User
-Property
-Type
-Description
-name
-String
-unique username
-password
-String
-password of user
-gradeLevel
-String
-current grade level
-major
-String
-user’s major
-coursesEnrolled
-Integer Array
-array of course id’s the user is currently enrolled in
-
-Model: Course
-Property
-Type
-Description
-courseNum
-Integer
-Course number
-courseCode
-Integer
-Unique id of course
-professor
-String
-Name of instructor
-days
-String
-Meeting days of course
-time
-String
-Meeting time of course
-section
-Integer
-Section number of course
-
-Model: Post
-Property
-Type
-Description
-postId
-Integer
-Unique id of post
-user
-Pointer to User
-Post author
-text
-String
-Content of post
-hashtag
-String
-Non-unique searchable id of post
-timeCreated
-DateTime
-Date post was created
-
-Model: List
-Property
-Type
-Description
-listId
-Integer
-Unique id of list
-postId
-Array of Pointers to Posts
-Contains all post ids belonging to the list
-
-Model: Hashtag
-Property
-Type
-Description
-id
-Integer
-Unique id of hashtag
-tag
-String
-Hashtag name
- 
- 
-### Networking
+Networking
 List of network requests by screen
 
-Login Screen
-(Read/GET) Validate user log-in and password information with database
+* Login Screen
+    * (Read/GET) Validate user log-in and password information with database
 
-
+```
 protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
         ButterKnife.bind(this);
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -207,8 +118,12 @@ protected void onCreate(Bundle savedInstanceState) {
         });
     }
 
-Account Creation Screen (Registration)
-(Read/GET, Create/POST) Confirm username/password has not already been created in the database. Create new account in database if all information is valid
+```
+
+
+* Account Creation Screen (Registration)
+    * (Read/GET, Create/POST) Confirm username/password has not already been created in the database. Create new account in database if all information is valid
+```
 private void accountCreate(String userName, String password, String bio, String grade) {
         User user = new User();
         user.setUsername(userName);
@@ -227,8 +142,10 @@ private void accountCreate(String userName, String password, String bio, String 
             }
         });
     }
-Course Screen
-(Read/GET) For the logged in user, display all courses associated with account
+```
+* Course Screen
+    * (Read/GET) For the logged in user, display all courses associated with account
+```
 protected void queryCourses() {
         ParseQuery<Courses> postParseQuery = new ParseQuery<Courses>(Courses.class);
         postParseQuery.include(Post.KEY_USER);
@@ -252,8 +169,10 @@ protected void queryCourses() {
             }
         });
     }
-Add Course Screen
-(Read/GET) All courses in database are displayed
+```
+* Add Course Screen
+    * (Read/GET) All courses in database are displayed
+```
 protected void queryCourses() {
         ParseQuery<Courses> postParseQuery = new ParseQuery<Courses>(Courses.class);
         postParseQuery.include(Post.KEY_MAJOR);
@@ -277,7 +196,10 @@ protected void queryCourses() {
             }
         });
     }
-(Update/PUT) Courses user decides to enroll in are added to the user account
+```
+* 
+    * (Update/PUT) Courses user decides to enroll in are added to the user account
+```
 …. If enroll button.isClicked(){
 	String courseCode = view.getCourse..getCourseCode();
 	ParseUser currentUser = getCurrentUser();
@@ -299,8 +221,10 @@ course.saveInBackground(new SaveCallback() {
             }
         });
 }
-Chat Screen
-(Read/GET, Create/POST) User can post new messages and displays all messages that have been posted in the chat
+```
+* Chat Screen
+    * (Read/GET, Create/POST) User can post new messages and displays all messages that have been posted in the chat
+```
 protected void queryPosts() {
         ParseQuery<Post> postParseQuery = new ParseQuery<Post>(Post.class);
         postParseQuery.include(Post.KEY_CHATID);
@@ -326,8 +250,10 @@ protected void queryPosts() {
             }
         });
     }
-Parse Screen
-(Read/GET) Shows all hashtags posted in the course chat
+```
+* Parse Screen
+    * (Read/GET) Shows all hashtags posted in the course chat
+```
 protected void queryPosts() {
         ParseQuery<Post> postParseQuery = new ParseQuery<Post>(Post.class);
 //this parse is subject to change if voting system is implemented
@@ -355,7 +281,66 @@ protected void queryPosts() {
             }
         });
     }
+```
 
+**Models**
+
+* Model: User
+
+| Property | Type | Description |
+| -------- | -------- | -------- |
+| name     | String     | unique username     |
+| password | String | password of user|
+|gradeLevel | String | current grade level|
+|major | String | current grade level|
+|coursesEnrolled| Integer Array | array of course id's the user is currently enrolled in|
+
+* Model: Course
+
+| Property | Type | Description |
+| -------- | -------- | -------- |
+| courseNum| Integer     | Course number|
+|courseCode| Integer | Unique id of course|
+|professor | String | Name of instructor|
+|days | String | Meeting days of course | 
+|time | String | Meeting time of course | 
+|section | Integer | Section number of course | 
+
+* Model: Post
+
+| Property | Type | Description |
+| -------- | -------- | -------- |
+| postId     | Integer     | Unique id of post | 
+|user | Pointer to User | Post author | 
+|text | String | Content of post | 
+|hashtag | String | Non-unique searchable id of post | 
+|timeCreated | DateTime | Date post was created | 
+
+* Model: List
+
+| Property | Type | Description |
+| -------- | -------- | -------- |
+| listId     | Integer     | Unique id of list |
+| postId | Array of Pointers to Posts | Contains all post ids belonging to the list | 
+
+* Model: Hashtag
+
+| Property | Type | Description |
+| -------- | -------- | -------- |
+| id     | Integer     | Unique id of hashtag | 
+|tag | String | Hashtag name | 
+
+
+
+### [BONUS] Digital Wireframes & Mockups
+
+### [BONUS] Interactive Prototype
+
+## Schema 
+[This section will be completed in Unit 9]
+### Models
+[Add table of models]
+### Networking
 - [Add list of network requests by screen ]
 - [Create basic snippets for each Parse network request]
 - [OPTIONAL: List endpoints if using existing API such as Yelp]
