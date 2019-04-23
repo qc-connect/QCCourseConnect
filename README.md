@@ -84,9 +84,279 @@ QC Class Connect will be a mobile application designed to connect students in th
 ### [BONUS] Interactive Prototype
 
 ## Schema 
-[This section will be completed in Unit 9]
+Networking
+List of network requests by screen
+
+Login Screen
+(Read/GET) Validate user log-in and password information with database
+
+
+protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
+
+        ButterKnife.bind(this);
+        btnLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String username = etUsername.getText().toString();
+                String password = etPassword.getText().toString();
+                login(username, password);
+            }
+        });
+    }
+    private void login(String username, String password) {
+        ParseUser.logInInBackground(username, password, new LogInCallback() {
+            @Override
+            public void done(ParseUser user, ParseException e) {
+                if (e != null){
+                    // TODO: better error handling
+                    Log.e(TAG, "Issue with login");
+                    e.printStackTrace();
+                    return;
+               }
+                goMainActivity();
+            }
+        });
+    }
+
+Account Creation Screen (Registration)
+(Read/GET, Create/POST) Confirm username/password has not already been created in the database. Create new account in database if all information is valid
+private void accountCreate(String userName, String password, String bio, String grade) {
+        User user = new User();
+        user.setUsername(userName);
+        user.setPassword(password);
+        user.setBio(bio);
+        user.setGrade(grade);
+        user.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e != null){
+                    Log.d(TAG, "Error while saving");
+                    e.printStackTrace();
+                    return;
+                }
+                Log.d(TAG, "Success!!");
+            }
+        });
+    }
+Course Screen
+(Read/GET) For the logged in user, display all courses associated with account
+protected void queryCourses() {
+        ParseQuery<Courses> postParseQuery = new ParseQuery<Courses>(Courses.class);
+        postParseQuery.include(Post.KEY_USER);
+        postParseQuery.findInBackground(new FindCallback<Post>() {
+            @Override
+            public void done(List<Courses> posts, ParseException e) {
+                if(e != null) {
+                    Log.e(TAG, "Error with query");
+                    e.printStackTrace();
+                    return;
+                }
+                adapter.clear();
+                mPosts.addAll(courses);
+                adapter.notifyDataSetChanged();
+                swipeContainer.setRefreshing(false);
+                for(int i = 0; i < posts.size(); i++){
+                    Courses course= posts.get(i);
+                    Log.d(TAG, "Course: " + course.getCourseID() + ", Section: " +
+                            course.getSection());
+                }
+            }
+        });
+    }
+Add Course Screen
+(Read/GET) All courses in database are displayed
+protected void queryCourses() {
+        ParseQuery<Courses> postParseQuery = new ParseQuery<Courses>(Courses.class);
+        postParseQuery.include(Post.KEY_MAJOR);
+        postParseQuery.findInBackground(new FindCallback<Post>() {
+            @Override
+            public void done(List<Courses> posts, ParseException e) {
+                if(e != null) {
+                    Log.e(TAG, "Error with query");
+                    e.printStackTrace();
+                    return;
+                }
+                adapter.clear();
+                mPosts.addAll(courses);
+                adapter.notifyDataSetChanged();
+                swipeContainer.setRefreshing(false);
+                for(int i = 0; i < posts.size(); i++){
+                    Courses course= posts.get(i);
+                    Log.d(TAG, "Course: " + course.getCourseID() + ", Section: " +
+                            course.getSection());
+                }
+            }
+        });
+    }
+(Update/PUT) Courses user decides to enroll in are added to the user account
+…. If enroll button.isClicked(){
+	String courseCode = view.getCourse..getCourseCode();
+	ParseUser currentUser = getCurrentUser();
+addCourse(courseCode, currentUser);
+	
+}
+Public boolean addCourse(String courseCode){
+	Courses course = new Course(courseCode);
+course.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e != null){
+                    Log.d(TAG, "Error while saving");
+                    e.printStackTrace();
+                    return;
+                }
+                Log.d(TAG, "Success!!");
+
+            }
+        });
+}
+Chat Screen
+(Read/GET, Create/POST) User can post new messages and displays all messages that have been posted in the chat
+protected void queryPosts() {
+        ParseQuery<Post> postParseQuery = new ParseQuery<Post>(Post.class);
+        postParseQuery.include(Post.KEY_CHATID);
+        postParseQuery.setLimit(20);
+        postParseQuery.addDescendingOrder(Post.KEY_CREATED_AT);
+        postParseQuery.findInBackground(new FindCallback<Post>() {
+            @Override
+            public void done(List<Post> posts, ParseException e) {
+                if(e != null) {
+                    Log.e(TAG, "Error with query");
+                    e.printStackTrace();
+                    return;
+                }
+                adapter.clear();
+                mPosts.addAll(posts);
+                adapter.notifyDataSetChanged();
+                swipeContainer.setRefreshing(false);
+                for(int i = 0; i < posts.size(); i++){
+                    Post post = posts.get(i);
+                    Log.d(TAG, "Post: " + post.getDescription() + ", Username: " +
+                            post.getUser().getUsername());
+                }
+            }
+        });
+    }
+Parse Screen
+(Read/GET) Shows all hashtags posted in the course chat
+protected void queryPosts() {
+        ParseQuery<Post> postParseQuery = new ParseQuery<Post>(Post.class);
+//this parse is subject to change if voting system is implemented
+//instead ordering by created at, would be ordered by amount of votes
+        postParseQuery.include(Post.KEY_HASHTAG);
+        postParseQuery.setLimit(20);
+        postParseQuery.addDescendingOrder(Post.KEY_CREATED_AT);
+        postParseQuery.findInBackground(new FindCallback<Post>() {
+            @Override
+            public void done(List<Post> posts, ParseException e) {
+                if(e != null) {
+                    Log.e(TAG, "Error with query");
+                    e.printStackTrace();
+                    return;
+                }
+                adapter.clear();
+                mPosts.addAll(posts);
+                adapter.notifyDataSetChanged();
+                swipeContainer.setRefreshing(false);
+                for(int i = 0; i < posts.size(); i++){
+                    Post post = posts.get(i);
+                    Log.d(TAG, "Post: " + post.getDescription() + ", Username: " +
+                            post.getUser().getUsername());
+                }
+            }
+        });
+    }
+
 ### Models
-[Add table of models]
+Model: User
+Property
+Type
+Description
+name
+String
+unique username
+password
+String
+password of user
+gradeLevel
+String
+current grade level
+major
+String
+user’s major
+coursesEnrolled
+Integer Array
+array of course id’s the user is currently enrolled in
+
+Model: Course
+Property
+Type
+Description
+courseNum
+Integer
+Course number
+courseCode
+Integer
+Unique id of course
+professor
+String
+Name of instructor
+days
+String
+Meeting days of course
+time
+String
+Meeting time of course
+section
+Integer
+Section number of course
+
+Model: Post
+Property
+Type
+Description
+postId
+Integer
+Unique id of post
+user
+Pointer to User
+Post author
+text
+String
+Content of post
+hashtag
+String
+Non-unique searchable id of post
+timeCreated
+DateTime
+Date post was created
+
+Model: List
+Property
+Type
+Description
+listId
+Integer
+Unique id of list
+postId
+Array of Pointers to Posts
+Contains all post ids belonging to the list
+
+Model: Hashtag
+Property
+Type
+Description
+id
+Integer
+Unique id of hashtag
+tag
+String
+Hashtag name
+ 
+
+
 ### Networking
 - [Add list of network requests by screen ]
 - [Create basic snippets for each Parse network request]
