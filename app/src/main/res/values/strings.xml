@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">QCCourseConnect</string>
+    <string name="chat">Chat</string>
+    <string name="parse">Parse</string>
 </resources>
