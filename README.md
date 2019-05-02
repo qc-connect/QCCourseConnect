@@ -27,12 +27,12 @@ QC Class Connect will be a mobile application designed to connect students in th
 ### 1. User Stories (Required and Optional)
 
 **Required Must-have Stories**
-
-* User can log in based on QC ID Number
-* User can enroll themselves into their course on the app
-* User can post a question or comment in the chat room
-* User can search hashtags for other related questions
-* ...
+- [ ]
+  - [ ] User can log in based on QC ID Number
+  - [ ] User can enroll themselves into their course on the app
+  - [ ] User can post a question or comment in the chat room
+  - [ ] User can search hashtags for other related questions
+  
 
 **Optional Nice-to-have Stories**
 
