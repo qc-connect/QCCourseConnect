@@ -29,6 +29,7 @@ QC Class Connect will be a mobile application designed to connect students in th
 **Required Must-have Stories**
 - [ ]
   - [ ] User can log in based on QC ID Number
+  - [X] User has multiple layouts that are understandable and easy to use
   - [ ] User can enroll themselves into their course on the app
   - [ ] User can post a question or comment in the chat room
   - [ ] User can search hashtags for other related questions
@@ -331,8 +332,14 @@ protected void queryPosts() {
         });
     }
 ```
+## Video Walkthrough
 
-### [BONUS] Digital Wireframes & Mockups
+Here's a walkthrough of implemented user stories:
+
+<img src='https://github.com/qc-connect/QCCourseConnect/blob/master/Walkthrough1.gif?raw=true' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+
+GIF created with [LiceCap](http://www.cockos.com/licecap/).
+
 
 ### [BONUS] Interactive Prototype
 
