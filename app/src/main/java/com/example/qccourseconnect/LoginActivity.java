@@ -15,32 +15,39 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 
 public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = "LoginActivity";
 
-    private EditText etUsername;
-    private EditText etPassword;
-    private Button btnLogin;
-    private Button btnSignup;
+    @BindView (R.id.etUsername) EditText etUsername;
+    @BindView(R.id.etPassword) EditText etPassword;
+    @BindView(R.id.btnLogin) Button btnLogin;
+    @BindView(R.id.btnSignup) Button btnSignup;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        etUsername = findViewById(R.id.etUsername);
+        ButterKnife.bind(this);
 
-        etPassword = findViewById(R.id.etPassword);
 
-        btnLogin = findViewById(R.id.btnLogin);
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String username = etUsername.getText().toString();
                 String password = etPassword.getText().toString();
                 login(username, password);
+            }
+        });
+        btnSignup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                signup();
             }
         });
 
@@ -55,6 +62,7 @@ public class LoginActivity extends AppCompatActivity {
                 if(e != null) {
                     Log.e(TAG, "Issue with login" + e);
                     e.printStackTrace();
+                    Toast.makeText(getApplicationContext(),"Username or Password incorrect", Toast.LENGTH_LONG).show();
                     return;
                 }
                 // navigate to new activity if the user has logged in properly
@@ -62,6 +70,8 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     } // end login()
+
+
 
 
     private void goMainActivity() {
@@ -72,24 +82,11 @@ public class LoginActivity extends AppCompatActivity {
     } // end goMainActivity()
 
 
-    private void signup(String username, String password) {
-        ParseUser user = new ParseUser();
-
-        user.setUsername(username);
-        user.setPassword(password);
-        user.signUpInBackground(new SignUpCallback() {
-            @Override
-            public void done(ParseException e) {
-                if(e == null) {
-                    Log.d(TAG, "Sign up successful");
-                    Toast.makeText(LoginActivity.this, "Sign up successful!", Toast.LENGTH_SHORT).show();
-                    goMainActivity();
-                } else {
-                    Log.e(TAG, "Problem with sign up");
-                    return;
-                }
-            }
-        });
+    private void signup() {
+        Log.d(TAG, "Navigating to Register Activity");
+        Intent i = new Intent(this, RegisterActivity.class);
+        startActivity(i);
+        finish();
     } // end goSignupActivity()
 
 

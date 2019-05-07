@@ -1,34 +1,29 @@
 package com.example.qccourseconnect;
 
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
-import android.widget.Toast;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.FragmentManager;
+import android.util.Log;
 
-import com.example.qccourseconnect.fragments.ChatFragment;
-import com.example.qccourseconnect.fragments.ParseFragment;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import com.parse.ParseUser;
 
 public class MainActivity extends AppCompatActivity {
 
+
+    private static final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
+
+        final ParseUser[] currentUser = {ParseUser.getCurrentUser()};
+        if (currentUser[0] == null) {
+            goLoginActivity();
+        }
         final FragmentManager fragmentManager = getSupportFragmentManager();
-
-
-
-
-
 
 
 /*
@@ -55,5 +50,13 @@ public class MainActivity extends AppCompatActivity {
         });
         bottomNavigationView.setSelectedItemId(R.id.action_chat);*/
     }
+
+    private void goLoginActivity() {
+        Log.d(TAG, "Navigating to Login Activity");
+        Intent i = new Intent(this, LoginActivity.class);
+        startActivity(i);
+        finish(); // remove loginactivity from backstack
+    } // end goMainActivity()
+
 
 }
